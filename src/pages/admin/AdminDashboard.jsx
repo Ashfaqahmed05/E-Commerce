@@ -4,11 +4,19 @@ import OrderDetail from '../../components/admin/OrderDetail';
 import UserDetail from '../../components/admin/Users';
 import { useContext } from 'react';
 import myContext from '../../context/myContext';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('users'));
     const context = useContext(myContext);
-    const {getAllProduct, getAllOrder, getAllUser} = context;
+    const { getAllProduct, getAllOrder, getAllUser } = context;
+
+    const logout = () => {
+        localStorage.clear('users');
+        navigate("/")
+    }
+
+
     return (
         <div>
             {/* Top */}
@@ -28,7 +36,7 @@ const AdminDashboard = () => {
                             <img src="https://cdn-icons-png.flaticon.com/128/2202/2202112.png" alt="" />
                         </div>
                         {/* text  */}
-                           <div className="">
+                        <div className="">
                             {/* Name  */}
                             <h1 className=" text-center text-lg">
                                 <span className=" font-bold">Name : </span>
@@ -144,7 +152,7 @@ const AdminDashboard = () => {
 
                                     </div>
                                     <h2 className="title-font font-medium text-3xl text-pink-400 fonts1" >{getAllUser.length}</h2>
-                                    <p className=" text-pink-500  font-bold" >Total Order</p>
+                                    <p className=" text-pink-500  font-bold" >Total User</p>
                                 </div>
                             </Tab>
                         </TabList>
@@ -154,14 +162,25 @@ const AdminDashboard = () => {
                         </TabPanel>
 
                         <TabPanel>
-                            <OrderDetail/>
+                            <OrderDetail />
                         </TabPanel>
 
                         <TabPanel>
-                           <UserDetail/>
+                            <UserDetail />
                         </TabPanel>
                     </Tabs>
+
                 </div>
+
+
+            </div>
+            <div className='flex justify-center my-4'>
+            <Link to={"/"}>
+            <li onClick={logout}
+                className="px-5 py-2 bg-pink-50 border border-pink-100 rounded-lg cursor-pointer">Logout</li>
+            
+            </Link>
+
             </div>
         </div>
     );

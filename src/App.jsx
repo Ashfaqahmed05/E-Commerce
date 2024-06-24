@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate
 } from "react-router-dom";
 import NoPage from "./pages/noPage/NoPage";
 import HomePage from "./pages/home/Home";
@@ -9,7 +10,7 @@ import ProductInfo from "./pages/productInfo/ProductInfo";
 import ScrollTop from "./components/scrollTop/ScrollTop";
 import CartPage from "./pages/cart/Cart";
 import AllProduct from "./pages/allProducts/AllProducts";
-import Signup from "./pages/registration/Signup"
+import Signup from "./pages/registration/Signup";
 import Login from "./pages/registration/Signin";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -17,16 +18,11 @@ import AddProductPage from "./pages/admin/AddProduct";
 import UpdateProductPage from "./pages/admin/UpdateProduct";
 import MyState from "./context/myState";
 import { Toaster } from "react-hot-toast";
-import { ProtectedRouteForAdmin } from "./protectedRoutes/ProtectedRouteAdmin";
-import { ProtectedRouteForUser } from "./protectedRoutes/ProtectedRouteUser";
+import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import CategoryPage from "./pages/category/Category";
-import { useEffect } from "react";
-
 
 const App = () => {
-
-
- 
+  const user = JSON.parse(localStorage.getItem('users'));
 
   return (
     <div>
@@ -38,37 +34,34 @@ const App = () => {
             <Route path="*" element={<NoPage />} />
             <Route path="/productinfo/:id" element={<ProductInfo />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
+            <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
             <Route path="/allproduct" element={<AllProduct />} />
-            <Route path="/category/:categoryname" element={<CategoryPage />} /> 
+            <Route path="/category/:categoryname" element={<CategoryPage />} />
             <Route path="/user-dashboard" element={
-              <ProtectedRouteForUser>
-                <UserDashboard/>
-                </ProtectedRouteForUser>
+              <ProtectedRoute allowedRoles={["user"]}>
+                <UserDashboard />
+              </ProtectedRoute>
             } />
-
-
-
             <Route path="/admin-dashboard" element={
-              <ProtectedRouteForAdmin>
-              <AdminDashboard/>
-              </ProtectedRouteForAdmin>
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
             } />
             <Route path="/addproduct" element={
-              <ProtectedRouteForAdmin>
-              <AddProductPage/>
-              </ProtectedRouteForAdmin>
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AddProductPage />
+              </ProtectedRoute>
             } />
             <Route path="/updateproduct/:id" element={
-            <UpdateProductPage/>
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <UpdateProductPage />
+              </ProtectedRoute>
             } />
-
           </Routes>
         </Router>
       </MyState>
-      <Toaster/>
-
+      <Toaster />
     </div>
   );
 }
