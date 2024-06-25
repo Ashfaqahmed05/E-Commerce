@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import myContext from "../../context/myContext";
+import { Link, Navigate } from "react-router-dom";
 
 const OrderDetail = () => {
     const context = useContext(myContext);
@@ -92,6 +93,10 @@ const OrderDetail = () => {
                                     Date
                                 </th>
 
+                                <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-pink-100 text-slate-700 bg-slate-100">
+                                    Chatting
+                                </th>
+
                                 <th scope="col"
                                     className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-pink-100 text-slate-700 bg-slate-100">
                                     Action
@@ -165,6 +170,10 @@ const OrderDetail = () => {
 
                                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                                                         {order.date}
+                                                    </td>
+
+                                                    <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500">
+                                                    <Link to={`/admin-dashboard/chat/${order.id}`} className="text-blue-500 hover:underline">Chatting</Link>
                                                     </td>
 
                                                     <td onClick={()=> deleteProduct(order.id)} className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 text-red-500 cursor-pointer ">

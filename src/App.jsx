@@ -20,6 +20,7 @@ import MyState from "./context/myState";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import CategoryPage from "./pages/category/Category";
+import Chat from "./components/chat/Chat";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('users'));
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
             <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
             <Route path="/allproduct" element={<AllProduct />} />
+            <Route path="/chat/:id" element={<Chat />} />
             <Route path="/category/:categoryname" element={<CategoryPage />} />
             <Route path="/user-dashboard" element={
               <ProtectedRoute allowedRoles={["user"]}>
@@ -46,6 +48,11 @@ const App = () => {
             <Route path="/admin-dashboard" element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <AdminDashboard />
+              </ProtectedRoute>
+            } />
+               <Route path="/admin-dashboard/chat/:id" element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <Chat />
               </ProtectedRoute>
             } />
             <Route path="/addproduct" element={

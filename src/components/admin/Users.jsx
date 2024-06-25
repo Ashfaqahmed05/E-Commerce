@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import myContext from "../../context/myContext";
+import { Link } from "react-router-dom";
 
 const UserDetail = () => {
     const context = useContext(myContext);

@@ -2,12 +2,14 @@ import { useContext } from "react";
 import Layout from "../../components/layout/Layout";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/loader";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
     // user
     const user = JSON.parse(localStorage.getItem('users'));
 
     const context = useContext(myContext);
+    const navigate = useNavigate();
     const { loading, getAllOrder } = context
     // console.log(getAllOrder)
 
@@ -60,7 +62,7 @@ const UserDashboard = () => {
                         <h2 className=" text-2xl lg:text-3xl font-bold">Order Details</h2>
 
                         <div className="flex justify-center relative top-10">
-                        {loading && <Loader/>}
+                            {loading && <Loader />}
                         </div>
 
                         {/* main 2 */}
@@ -69,9 +71,7 @@ const UserDashboard = () => {
                             return (
                                 <div key={index}>
                                     {order.cartItems.map((item, index) => {
-                                        // console.log('item', item);
                                         const { id, date, quantity, price, title, productImageUrl, category } = item
-                                        // console.log('order', order)
                                         const { status } = order
                                         return (
                                             <div key={index} className="mt-5 flex flex-col overflow-hidden rounded-xl border border-pink-100 md:flex-row">
@@ -96,9 +96,9 @@ const UserDashboard = () => {
                                                             </div>
 
                                                             <div className="mb-4">
-                                                                <div className="text-sm font-semibold">Order Status</div>                              
-                                                                  <div className="text-sm font-medium text-green-800 first-letter:uppercase">{status}</div>
-                                                               
+                                                                <div className="text-sm font-semibold">Order Status</div>
+                                                                <div className="text-sm font-medium text-green-800 first-letter:uppercase">{status}</div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -131,7 +131,9 @@ const UserDashboard = () => {
 
                                                                 <div className="ml-auto flex flex-col items-end justify-between">
                                                                     <p className="text-right text-sm font-bold text-gray-900">Rs. {price}</p>
+                                                                    <button onClick={()=> navigate( `/chat/${order.id}`)} className="text-blue-500 p-4 h-14 hover:underline border border-pink-100">Chat</button>
                                                                 </div>
+                                                                
                                                             </li>
                                                         </ul>
 
