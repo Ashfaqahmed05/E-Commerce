@@ -13,7 +13,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const user = JSON.parse(localStorage.getItem('users'));
-
+    
     useEffect(() => {
         const order = getAllOrder.find((order) => order.id === id);
         setOrder(order);
@@ -21,7 +21,7 @@ const Chat = () => {
 
     useEffect(() => {
         if (order) {
-            const q = query(collection(fireDB, "chats"), where("orderId", "==", id),orderBy("timestamp"));
+            const q = query(collection(fireDB, "chats"), where("orderId", "==", id), orderBy("timestamp"));
             const unsubscribe = onSnapshot(q, (snapshot) => {
                 let msgs = [];
                 snapshot.forEach((doc) => {
@@ -32,7 +32,7 @@ const Chat = () => {
 
             return () => unsubscribe();
         }
-    }, [order]);
+    }, [order, id]);
 
     const sendMessage = async () => {
         if (newMessage.trim() !== "") {
@@ -51,7 +51,6 @@ const Chat = () => {
         return <div>Loading...</div>;
     }
 
-    console.log(messages)
     return (
         <Layout>
             <div className="container mx-auto px-4 py-5 lg:py-8">
@@ -62,8 +61,8 @@ const Chat = () => {
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <div className="chat-box mb-4 max-h-96 overflow-y-auto">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`mb-2 flex ${msg.senderRole === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`p-2 rounded-lg ${msg.senderRole === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`}>
+                            <div key={index} className={`mb-2 flex ${msg.senderRole === user.role ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`p-2 rounded-lg ${msg.senderRole === user.role ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`}>
                                     <p>{msg.message}</p>
                                     <span className="text-xs">{new Date(msg.timestamp?.seconds * 1000).toLocaleString()}</span>
                                 </div>

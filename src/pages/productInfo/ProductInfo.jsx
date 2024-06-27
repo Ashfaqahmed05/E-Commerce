@@ -18,7 +18,6 @@ const ProductInfo = () => {
 
     const { id } = useParams()
 
-    console.log(product)
 
     // getProductData
     const getProductData = async () => {
@@ -26,7 +25,9 @@ const ProductInfo = () => {
         try {
             const productTemp = await getDoc(doc(fireDB, "products", id))
             // console.log({...productTemp.data(), id : productTemp.id})
-            setProduct({...productTemp.data(), id : productTemp.id})
+            // console.log({...productTemp.data()})
+
+            setProduct({...productTemp.data()})
             setLoading(false)
         } catch (error) {
             console.log(error)
@@ -38,7 +39,6 @@ const ProductInfo = () => {
     const dispatch = useDispatch();
 
     const addCart = (item) => {
-        // console.log(item)
         dispatch(addToCart(item));
         toast.success("Add to cart")
     }
@@ -48,7 +48,6 @@ const ProductInfo = () => {
         toast.success("Delete cart")
     }
 
-    // console.log(cartItems)
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -57,8 +56,8 @@ const ProductInfo = () => {
 
     useEffect(() => {
         getProductData()
-
     }, [])
+
     return (
         <Layout>
             <section className="py-5 lg:py-16 font-poppins dark:bg-gray-800">

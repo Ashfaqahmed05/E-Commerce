@@ -37,10 +37,8 @@ const UpdateProductPage = () => {
     const context = useContext(myContext);
     const { loading, setLoading, getAllProductFunction } = context;
 
-    // navigate 
     const navigate = useNavigate();
     const { id } = useParams()
-    console.log(id)
 
     // product state
     const [product, setProduct] = useState({

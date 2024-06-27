@@ -5,7 +5,7 @@ import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase
 import { fireDB } from '../firebase/FirebaseConfig';
 import toast from 'react-hot-toast';
 
-function MyState({ children }) {
+function MyState({ children }){
     // Loading State 
     const [loading, setLoading] = useState(false);
 
